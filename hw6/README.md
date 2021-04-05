@@ -61,7 +61,7 @@ Please consider the format that the data is in and what format you will need to 
 Your implementation for getting and loading the data from the model will likely differ from the implementation that I used so feel free to deviate from the skeleton code here.
 
 #### Using pytorch dataloaders
-We use tensorflow to build efficient datapipelines. You can read more about them here.
+We use tensorflow to build efficient data pipelines. You can read more about them here.
 Resource: https://pytorch.org/docs/stable/data.html
 And an excellennt turotial on how to use these: https://stanford.edu/~shervine/blog/pytorch-how-to-generate-data-parallel
 

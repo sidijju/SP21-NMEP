@@ -24,16 +24,16 @@ class NeuralNet:
     #Potentially helpful, np.dot(a, b), also @ is the matrix product in numpy (a @ b)
 
     def loss(self, y0, y1):
-        #return np.sum(np.abs((y1-int(y0)), axis=0)
-        return np.sum(np.square(y1 - int(y0)), axis=0)
+        #return np.sum(np.square(y1 - int(y0)), axis=0)
+        return np.sum(np.abs(y1-int(y0)), axis=0)
 
     def loss_grad(self, y0, y1):
-        return np.sum(2*(y1-int(y0)), axis=0)
-        #if y1 > int(y0):
-        #    return 1
-        #elif y1 == int(y0):
-        #    return 0
-        #return -1
+        #return np.sum(2*(y1-int(y0)), axis=0)
+        if y1 > int(y0):
+            return 1
+        elif y1 == int(y0):
+            return 0
+        return -1
         #not completely accurate since at 0, the L1 function has no derivative
 
     def relu(self, x):
@@ -96,8 +96,8 @@ class NeuralNet:
         for i in range(len(X_test)):
             self.forward_pass(X_test[i])
             prediction = self.a2[0]
-            predictions.append(self.a2[0])
-        predictions = [round(prediction[0]) for prediction in predictions]
+            predictions.append(prediction[0])
+        predictions = [round(prediction) for prediction in predictions]
         total = len(X_test)*1.0
         correct = 0.0
         for i in range(len(X_test)):
@@ -130,4 +130,4 @@ if __name__ == "__main__":
     #not necessary but it prevents having to tweak learning rate a lot more
     X_train, X_test = X_train/255, X_test/255
     #################################################################################################
-    network.train(10, X_train, y_train, X_test, y_test, .05)
+    network.train(10, X_train, y_train, X_test, y_test, .01)
