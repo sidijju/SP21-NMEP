@@ -95,7 +95,7 @@ def main():
      	 #TODO: Save your checkpoint
          best_one = val_loss < best_loss
          save_checkpoint(model.state_dict(), best_one)
-         print("Epoch: %d \nTrain Accuracy: %d\nValidation Accuracy %d" % (epoch, train_acc, val_acc))
+         print("Epoch: %d \nTrain Accuracy: %2.4f\nValidation Accuracy %2.4f" % (epoch, train_acc, val_acc))
 
 if __name__ == "__main__":
     main()
