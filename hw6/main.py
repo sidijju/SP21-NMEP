@@ -33,22 +33,29 @@ def train(train_loader, model, criterion, optimizer, epoch):
         loss = criterion(outputs, target)
         loss.backward()
         optimizer.step()
-        print("loss: ", loss)
-    return loss
+        print("loss: ", loss[0])
+    return loss[0]
 
 def validate(val_loader, model, criterion):
     model.eval()
+    correct = 0
+    total = 0
     for i, (input, target) in enumerate(val_loader):
         outputs = model(input)
         predicted = torch.argmax(outputs)
+        labels = torch.argmax(target)
         loss = criterion(outputs, target)
-        if i % 10 == 0:
-            plt.imshow(input[0])
-            plt.show()
-            print("loss: ", loss)
-            print("label", torch.argmax(target)[0])
-            print("predicted: ", predicted[0])
-    return loss
+        for i in range(len(input)):
+            if predicted[i] == labels[i]:
+                correct += 1
+            total += 1
+            if i % 128 == 0:
+                plt.imshow(np.transpose(input[i], (1, 2, 0)))
+                plt.show()
+                print("loss: ", loss[0])
+                print("label", labels[i])
+                print("predicted: ", predicted[i])
+    return loss[0], correct/total
 
 def save_checkpoint(state, best_one, filename='rotationnetcheckpoint.pth.tar', filename2='rotationnetmodelbest.pth.tar'):
     torch.save(state, filename)
@@ -71,10 +78,11 @@ def main():
     for epoch in range(n_epochs):
      	 #TODO: make your loop which trains and validates. Use the train() func
          train_loss = train(train_loader, model, criterion, optimizer, config["num_epochs"])
-         val_loss = validate(val_loader, model, criterion)
+         val_loss, val_acc = validate(val_loader, model, criterion)
      	 #TODO: Save your checkpoint
          best_one = val_loss < best_loss
          save_checkpoint(model.state_dict(), best_one)
+         print("Epoch %d, Validation Accuracy %d", epoch, val_acc)
 
 if __name__ == "__main__":
     main()
