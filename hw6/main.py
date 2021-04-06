@@ -29,7 +29,6 @@ def train(train_loader, model, criterion, optimizer, epoch):
     for i, (input, target) in enumerate(train_loader):
         optimizer.zero_grad()
         outputs = model(input)
-        predicted = torch.max(outputs.data, 1)[1]
         loss = criterion(outputs, target)
         loss.backward()
         optimizer.step()
@@ -40,13 +39,14 @@ def validate(val_loader, model, criterion):
     model.eval()
     for i, (input, target) in enumerate(val_loader):
         outputs = model(input)
-        predicted = torch.max(outputs.data, 1)[1]
-        loss = criterion(predicted, target)
-        plt.imshow(input)
-        plt.show()
-        print("loss: ", loss)
-        print("img", i)
-        print("predicted: ", predicted)
+        predicted = torch.argmax(outputs)
+        loss = criterion(outputs, target)
+        if i % 10 == 0:
+            plt.imshow(input)
+            plt.show()
+            print("loss: ", loss)
+            print("label", torch.argmax(target))
+            print("predicted: ", predicted)
     return loss
 
 def save_checkpoint(state, best_one, filename='rotationnetcheckpoint.pth.tar', filename2='rotationnetmodelbest.pth.tar'):
