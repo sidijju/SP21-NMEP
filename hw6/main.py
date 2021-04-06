@@ -11,6 +11,7 @@ import time
 import shutil
 import yaml
 import argparse
+import matplotlib.pyplot as plt
 
 parser = argparse.ArgumentParser(description='Configuration details for training/testing rotation net')
 parser.add_argument('--config', type=str, required=True)
@@ -42,11 +43,11 @@ def validate(val_loader, model, criterion):
         predicted = torch.argmax(outputs)
         loss = criterion(outputs, target)
         if i % 10 == 0:
-            plt.imshow(input)
+            plt.imshow(input[0])
             plt.show()
             print("loss: ", loss)
-            print("label", torch.argmax(target))
-            print("predicted: ", predicted)
+            print("label", torch.argmax(target)[0])
+            print("predicted: ", predicted[0])
     return loss
 
 def save_checkpoint(state, best_one, filename='rotationnetcheckpoint.pth.tar', filename2='rotationnetmodelbest.pth.tar'):
