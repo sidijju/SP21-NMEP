@@ -41,10 +41,10 @@ def train(train_loader, model, criterion, optimizer, epoch):
                 correct += 1
             total += 1
 
-        if i % 100 == 0:
-            print("loss: ", loss.item())
-            print("label: ", target[0].item())
-            print("predicted: ", predicted[0].item())
+        #if i % 100 == 0:
+        #    print("loss: ", loss.item())
+        #    print("label: ", target[0].item())
+        #    print("predicted: ", predicted[0].item())
 
         loss.backward()
         optimizer.step()
@@ -64,10 +64,10 @@ def validate(val_loader, model, criterion):
                 correct += 1
             total += 1
 
-        if i % 100 == 0:
-            print("loss: ", loss.item())
-            print("label", target[0].item())
-            print("predicted: ", predicted[0].item())
+        #if i % 100 == 0:
+        #    print("loss: ", loss.item())
+        #    print("label", target[0].item())
+        #    print("predicted: ", predicted[0].item())
     return loss.item(), correct/total
 
 def save_checkpoint(state, best_one, filename='rotationnetcheckpoint.pth.tar', filename2='rotationnetmodelbest.pth.tar'):
@@ -95,7 +95,7 @@ def main():
      	 #TODO: Save your checkpoint
          best_one = val_loss < best_loss
          save_checkpoint(model.state_dict(), best_one)
-         print("Epoch: %d \nTrain Accuracy: %2.4f\nValidation Accuracy %2.4f" % (epoch, train_acc, val_acc))
+         print("Epoch %d - Train Accuracy: %2.4f, Validation Accuracy: %2.4f" % (epoch, train_acc, val_acc))
 
 if __name__ == "__main__":
     main()
