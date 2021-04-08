@@ -1,0 +1,16 @@
+We trained for 100 epochs using a batch size of 512.
+We used a SGD optimizer and we set the weight decay to be 5e-4, momentum as 0.9 and learning rate as 0.1.
+
+After leaving overnight, we managed to train 13 epochs.
+We realize that is a far cry from 100, but we assume that our net should be able to completely fit the data by 100 epochs if the trend continues.
+At best, we managed to have a training accuracy of .8511 and a validation accuracy of 0.7552.
+To calculate these accuracies, we simply take the number of correct predictions over the total number of predictions.
+We didn’t add the cross entropy loss across trials.
+
+We note that we train on a batch size significantly larger than in the paper (128), but we see that this gives us pretty good results regardless.
+We also note that by predicting the transitions as k given total rotation = k * 90. (e.g. we encode a 0 degree rotation with 0, 90 degree rotation with 1, etc), we get just as good results as if we weren’t.
+We hypothesize that this is due to the fact that it results in a smoother weight space and nicer gradients that allows us to optimize effectively.
+
+For Rotnet we essentially copied the Resnet architecture and changed the last layer to output a vector of dimension 4.
+To make our code more modularized, we divided the Resnet architecture into ResnetLayers and ResnetBlocks, each of which are their own neural network.
+This made it a lot more readable.
